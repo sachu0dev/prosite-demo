@@ -34,6 +34,18 @@ export default function Builder() {
     setComponents(updatedComponents);
   };
 
+  const moveComponentUp = (index) => {
+    if (index > 0) {
+      moveComponent(index, index - 1);
+    }
+  };
+
+  const moveComponentDown = (index) => {
+    if (index < components.length - 1) {
+      moveComponent(index, index + 1);
+    }
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="flex p-5 justify-between">
@@ -41,7 +53,8 @@ export default function Builder() {
         <Canvas
           components={components}
           onRemoveComponent={handleRemoveComponent}
-          moveComponent={moveComponent}
+          moveComponentUp={moveComponentUp}
+          moveComponentDown={moveComponentDown}
         />
         <div className="ml-4">
           <button className="btn btn-primary mr-2" onClick={handlePreview}>
