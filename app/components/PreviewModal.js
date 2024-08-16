@@ -1,5 +1,3 @@
-// components/PreviewModal.js
-
 import React from 'react';
 import ComponentRenderer from './ComponentRenderer';
 
@@ -13,7 +11,7 @@ export default function PreviewModal({ components, onClose }) {
             Close
           </button>
         </div>
-        <div className="preview-content max-h-[80vh] overflow-y-auto">
+        <div className="preview-content max-h-[80vh] overflow-y-auto bg-black p-4">
           {components.map((comp, index) => (
             <ComponentRenderer key={index} component={comp} />
           ))}

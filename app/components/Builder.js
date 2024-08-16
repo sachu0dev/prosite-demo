@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import Sidebar from './Sidebar';
@@ -12,7 +12,7 @@ export default function Builder() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const handleAddComponent = (component) => {
-    setComponents([...components, component]);
+    setComponents([...components, { ...component, id: Date.now() }]);
   };
 
   const handleRemoveComponent = (index) => {
@@ -27,24 +27,14 @@ export default function Builder() {
     setIsPreviewOpen(false);
   };
 
-  const moveComponent = (fromIndex, toIndex) => {
-    const updatedComponents = [...components];
-    const [movedComponent] = updatedComponents.splice(fromIndex, 1);
-    updatedComponents.splice(toIndex, 0, movedComponent);
-    setComponents(updatedComponents);
-  };
-
-  const moveComponentUp = (index) => {
-    if (index > 0) {
-      moveComponent(index, index - 1);
-    }
-  };
-
-  const moveComponentDown = (index) => {
-    if (index < components.length - 1) {
-      moveComponent(index, index + 1);
-    }
-  };
+  const moveComponent = useCallback((dragIndex, hoverIndex) => {
+    setComponents((prevComponents) => {
+      const updatedComponents = [...prevComponents];
+      const [draggedComponent] = updatedComponents.splice(dragIndex, 1);
+      updatedComponents.splice(hoverIndex, 0, draggedComponent);
+      return updatedComponents;
+    });
+  }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -53,8 +43,7 @@ export default function Builder() {
         <Canvas
           components={components}
           onRemoveComponent={handleRemoveComponent}
-          moveComponentUp={moveComponentUp}
-          moveComponentDown={moveComponentDown}
+          moveComponent={moveComponent}
         />
         <div className="ml-4">
           <button className="btn btn-primary mr-2" onClick={handlePreview}>

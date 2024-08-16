@@ -5,6 +5,7 @@ import AboutComponent from './templates/AboutComponent';
 import ServicesComponent from './templates/ServicesComponent';
 import ProjectsComponent from './templates/ProjectsComponent';
 import ContactComponent from './templates/ContactComponent';
+import TemlateComponent from './templates/TemlateComponenet';
 
 const componentMap = {
   HeaderComponent: HeaderComponent,
@@ -12,6 +13,7 @@ const componentMap = {
   ServicesComponent: ServicesComponent,
   ProjectsComponent: ProjectsComponent,
   ContactComponent: ContactComponent,
+  TemlateComponent: TemlateComponent,
 };
 
 export default function ComponentRenderer({ component }) {

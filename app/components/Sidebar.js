@@ -9,6 +9,7 @@ const COMPONENTS = [
   { id: 3, name: 'Services', icon: <FiBriefcase />, component: 'ServicesComponent' },
   { id: 4, name: 'Projects', icon: <FiMenu />, component: 'ProjectsComponent' },
   { id: 5, name: 'Contact', icon: <FiMail />, component: 'ContactComponent' },
+  { id: 6, name: 'Template', icon: <FiMenu />, component: 'TemlateComponent' },
 ];
 
 export default function Sidebar({ onAddComponent }) {
