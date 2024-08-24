@@ -6,6 +6,7 @@ import ServicesComponent from './templates/ServicesComponent';
 import ProjectsComponent from './templates/ProjectsComponent';
 import ContactComponent from './templates/ContactComponent';
 import TemlateComponent from './templates/TemlateComponenet';
+import { IoLogoWebComponent } from 'react-icons/io5';
 
 const componentMap = {
   HeaderComponent: HeaderComponent,
@@ -17,6 +18,7 @@ const componentMap = {
 };
 
 export default function ComponentRenderer({ component }) {
+  
   const Component = componentMap[component.component];
   return Component ? <Component /> : null;
 }

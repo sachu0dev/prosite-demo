@@ -15,16 +15,22 @@ export default function ProjectsComponent() {
 
   return (
     <section className="py-12 text-center">
-      <h2 className="text-2xl font-bold mb-6" contentEditable onBlur={(e) => handleTextChange(0, 'title', e.target.innerText)}>
+      <h2 
+        className="text-2xl font-bold mb-6 cursor-pointer hover:text-blue-500"
+        contentEditable
+        onBlur={(e) => handleTextChange(0, 'title', e.target.innerText)}
+        aria-label="Section Title"
+      >
         Our Projects
       </h2>
-      <div className="flex justify-center space-x-8">
+      <div className="flex flex-wrap justify-center gap-8">
         {projectData.map((project, index) => (
-          <div key={index} className="bg-gray-100 p-6 rounded-lg shadow-lg">
+          <div key={index} className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-80">
             <h3
-              className="text-xl font-semibold mb-2"
+              className="text-xl font-semibold mb-2 cursor-pointer hover:text-blue-500"
               contentEditable
               onBlur={(e) => handleTextChange(index, 'title', e.target.innerText)}
+              aria-label={`Project Title ${index + 1}`}
             >
               {project.title}
             </h3>
@@ -32,6 +38,7 @@ export default function ProjectsComponent() {
               className="text-gray-600"
               contentEditable
               onBlur={(e) => handleTextChange(index, 'description', e.target.innerText)}
+              aria-label={`Project Description ${index + 1}`}
             >
               {project.description}
             </p>

@@ -1,8 +1,8 @@
-// pages/index.js
 import Head from 'next/head';
 import Builder from './components/Builder';
 
 export default function Home() {
+  
   return (
     <div>
       <Head>
@@ -11,7 +11,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="min-h-screen bg-black">
+      <main className="min-h-screen bg-black text-white">
         <h1 className="text-center text-3xl font-bold pt-10">
           Prosite Builder
         </h1>

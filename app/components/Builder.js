@@ -12,7 +12,31 @@ export default function Builder() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const handleAddComponent = (component) => {
-    setComponents([...components, { ...component, id: Date.now() }]);
+    if (component.name === 'Image') {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const newComponent = { id: Date.now(), type: 'image', src: reader.result };
+          console.log('Adding new image component:', newComponent);
+          setComponents(prevComponents => {
+            const updatedComponents = [...prevComponents, newComponent];
+            console.log('Updated components:', updatedComponents);
+            return updatedComponents;
+          });
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    }  else {
+      setComponents(prevComponents => [
+        ...prevComponents, 
+        { ...component, id: Date.now(), type: 'component' }
+      ]);
+    }
   };
 
   const handleRemoveComponent = (index) => {
@@ -38,19 +62,22 @@ export default function Builder() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="flex p-5 justify-between">
-        <Sidebar onAddComponent={handleAddComponent} />
+      <div className="flex p-5 ">
+        <div className="mr-4">
+          <button className="btn btn-primary mb-2" onClick={handlePreview}>
+            Preview
+          </button>
+          <ExportButton components={components} />
+          <Sidebar onAddComponent={handleAddComponent} />
+        </div>
+        <div className="flex-grow w-full">
         <Canvas
           components={components}
           onRemoveComponent={handleRemoveComponent}
           moveComponent={moveComponent}
         />
-        <div className="ml-4">
-          <button className="btn btn-primary mr-2" onClick={handlePreview}>
-            Preview
-          </button>
-          <ExportButton components={components} />
         </div>
+        
         {isPreviewOpen && <PreviewModal components={components} onClose={handleClosePreview} />}
       </div>
     </DndProvider>

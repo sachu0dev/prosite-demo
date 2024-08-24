@@ -15,16 +15,22 @@ export default function ServicesComponent() {
 
   return (
     <section className="py-12 text-center">
-      <h2 className="text-2xl font-bold mb-6" contentEditable onBlur={(e) => handleTextChange(0, 'title', e.target.innerText)}>
+      <h2 
+        className="text-2xl font-bold mb-6 cursor-pointer hover:text-blue-500" 
+        contentEditable 
+        onBlur={(e) => handleTextChange(0, 'title', e.target.innerText)}
+        aria-label="Section Title"
+      >
         Our Services
       </h2>
-      <div className="flex justify-center space-x-8">
+      <div className="flex flex-wrap justify-center gap-8">
         {serviceData.map((service, index) => (
-          <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
+          <div key={index} className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-80 hover:shadow-xl transition-shadow duration-300">
             <h3
-              className="text-xl font-semibold mb-2"
+              className="text-xl font-semibold mb-2 cursor-pointer hover:text-blue-500"
               contentEditable
               onBlur={(e) => handleTextChange(index, 'title', e.target.innerText)}
+              aria-label={`Service Title ${index + 1}`}
             >
               {service.title}
             </h3>
@@ -32,6 +38,7 @@ export default function ServicesComponent() {
               className="text-gray-600"
               contentEditable
               onBlur={(e) => handleTextChange(index, 'description', e.target.innerText)}
+              aria-label={`Service Description ${index + 1}`}
             >
               {service.description}
             </p>

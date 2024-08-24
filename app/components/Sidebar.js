@@ -1,7 +1,6 @@
-// components/Sidebar.js
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import { FiMenu, FiHome, FiUser, FiBriefcase, FiMail } from 'react-icons/fi';
+import { FiMenu, FiHome, FiUser, FiBriefcase, FiMail, FiImage } from 'react-icons/fi';
 
 const COMPONENTS = [
   { id: 1, name: 'Header', icon: <FiHome />, component: 'HeaderComponent' },
@@ -10,6 +9,7 @@ const COMPONENTS = [
   { id: 4, name: 'Projects', icon: <FiMenu />, component: 'ProjectsComponent' },
   { id: 5, name: 'Contact', icon: <FiMail />, component: 'ContactComponent' },
   { id: 6, name: 'Template', icon: <FiMenu />, component: 'TemlateComponent' },
+  { id: 7, name: 'Image', icon: <FiImage />, component: 'ImageComponent' },
 ];
 
 export default function Sidebar({ onAddComponent }) {
@@ -25,7 +25,7 @@ export default function Sidebar({ onAddComponent }) {
 
 function SidebarItem({ component, onAddComponent }) {
   const [{ isDragging }, drag] = useDrag({
-    type: 'component',
+    type: component.name === 'Image' ? 'image' : 'component',
     item: { component },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
