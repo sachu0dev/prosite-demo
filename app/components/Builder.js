@@ -6,12 +6,15 @@ import Sidebar from './Sidebar';
 import Canvas from './Canvas';
 import PreviewModal from './PreviewModal';
 import ExportButton from './ExportButton';
+import { useRouter } from 'next/navigation';
 
 export default function Builder() {
   const [components, setComponents] = useState([]);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const router = useRouter();
 
   const handleAddComponent = (component) => {
+
     if (component.name === 'Image') {
       const input = document.createElement('input');
       input.type = 'file';
@@ -38,7 +41,6 @@ export default function Builder() {
       ]);
     }
   };
-
   const handleRemoveComponent = (index) => {
     setComponents(components.filter((_, i) => i !== index));
   };
@@ -60,12 +62,16 @@ export default function Builder() {
     });
   }, []);
 
+  const handleRoute = () => {
+    router.push('/pages');
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="flex p-5 ">
         <div className="mr-4">
-          <button className="btn btn-primary mb-2" onClick={handlePreview}>
-            Preview
+          <button className="btn btn-primary text-white m-2 bg-blue-500 p-2 rounded-md" onClick={handleRoute}>
+            My Prosites
           </button>
           <ExportButton components={components} />
           <Sidebar onAddComponent={handleAddComponent} />

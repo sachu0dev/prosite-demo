@@ -11,8 +11,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="min-h-screen bg-black text-white">
-        <h1 className="text-center text-3xl font-bold pt-10">
+      <main className="min-h-screen bg-black">
+        <h1 className="text-center text-3xl font-bold pt-10 text-white">
           Prosite Builder
         </h1>
         <Builder />

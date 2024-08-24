@@ -1,29 +1,37 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { generateReactComponent } from './genrateReactCompnent';
-
+import toast from 'react-hot-toast';
 
 export default function ExportButton({ components }) {
   const backgroundImage = useSelector((state) => state.prosite.bgImg);
-  
-  const handleExportComponent = () => {
+
+  const handleExportComponent = async () => {
     const componentCode = generateReactComponent(components, backgroundImage);
 
-    const blob = new Blob([componentCode], { type: 'text/javascript' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'GeneratedWebsite.js';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    try {
+      const response = await fetch('/api/saveComponent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ componentCode }),
+      });
 
-    URL.revokeObjectURL(url);
+      if (response.ok) {
+        toast.success('Component saved successfully!');
+      } else {
+        toast.error('Error saving component.');
+      }
+    } catch (error) {
+      console.error('Error saving component:', error);
+      toast.error('Error saving component.');
+    }
   };
 
   return (
     <button className="px-4 py-2 bg-blue-500 text-white rounded-lg" onClick={handleExportComponent}>
-      Export as HTML
+      Deploy
     </button>
   );
 }

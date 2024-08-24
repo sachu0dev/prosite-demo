@@ -41,7 +41,7 @@ function SidebarItem({ component, onAddComponent }) {
   return (
     <div
       ref={drag}
-      className={`p-2 mb-2 cursor-pointer border border-gray-300 rounded-lg flex items-center ${
+      className={`p-2 mb-2 cursor-pointer border text-white border-gray-300 rounded-lg flex items-center ${
         isDragging ? 'opacity-50' : ''
       }`}
     >

@@ -204,6 +204,7 @@ export default function Canvas({ components, onRemoveComponent, moveComponent })
         ref={drop}
         className="flex-1 p-4 border w-full border-gray-300 rounded-lg min-h-screen bg-white relative"
         style={{ 
+          // background: "linear-gradient(to right, #c9d6ff, #e2e2e2)",
           backgroundImage: `url(${backgroundImage})`, 
           backgroundSize: 'cover',
           backgroundPosition: 'center',
