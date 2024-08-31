@@ -4,7 +4,7 @@ import { generateReactComponent } from './genrateReactCompnent';
 import toast from 'react-hot-toast';
 
 export default function ExportButton({ components }) {
-  const backgroundImage = useSelector((state) => state.prosite.bgImg);
+  const backgroundImage = useSelector((state) => state.website.bgImg);
 
   const handleExportComponent = async () => {
     const componentCode = generateReactComponent(components, backgroundImage);

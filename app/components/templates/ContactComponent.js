@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function ContactComponent() {
   return (
-    <section className="py-12 text-center">
+    <section id="contact" className="py-12 text-center">
       <h2 className="text-2xl font-bold mb-6">Contact Us</h2>
       <form className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div className="mb-4">

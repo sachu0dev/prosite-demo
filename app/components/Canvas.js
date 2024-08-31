@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import ComponentRenderer from './ComponentRenderer';
 import Image from 'next/image';
@@ -7,7 +7,7 @@ import 'react-resizable/css/styles.css';
 import Draggable from 'react-draggable';
 import { IoRemoveOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
-import { setImage } from '@/redux/PrositeSlice';
+import { addNavItem, setImage } from '@/redux/websiteSlice';
 
 const DraggableComponent = ({ id, component, index, moveComponent, onRemoveComponent }) => {
   const ref = useRef(null);
@@ -78,23 +78,19 @@ const DraggableResizableImage = ({ id, src, index, moveImage, onRemoveComponent 
   const [size, setSize] = useState({ width: 100, height: 100 });
   const [isResizing, setIsResizing] = useState(false);
 
-  const [{ isDragging }, drag, preview] = useDrag({
-    type: 'image',
-    item: { id, index, type: 'image' },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
 
   const onResize = (event, { size }) => {
     setSize(size);
   };
 
   const onResizeStart = () => {
+    console.log('Resize start');
+    
     setIsResizing(true);
   };
 
   const onResizeStop = (event, { size }) => {
+    console.log('Resize stop');
     setIsResizing(false);
     setSize(size);
   };
@@ -128,7 +124,6 @@ const DraggableResizableImage = ({ id, src, index, moveImage, onRemoveComponent 
           style={{
             width: `${size.width}px`,
             height: `${size.height}px`,
-            opacity: isDragging ? 0.5 : 1,
             cursor: isResizing ? 'auto' : 'move',
             position: 'relative',
             border: '1px solid #ddd',
@@ -155,23 +150,35 @@ const DraggableResizableImage = ({ id, src, index, moveImage, onRemoveComponent 
 
 export default function Canvas({ components, onRemoveComponent, moveComponent }) {
   const dispatch = useDispatch();
-  const backgroundImage = useSelector((state) => state.prosite.bgImg);
+  const backgroundImage = useSelector((state) => state.website.bgImg);
+  console.log(components);
+  
+  useEffect(() => {
+    const navItems = components.map(comp => {
+      if(comp.name){
+        const name = comp.name.replace(/Component$/, '').toLowerCase();
+        return name;
+      }
+      return;
+    });
 
+    // Dispatch action to update nav items in Redux store
+    dispatch(addNavItem(navItems));
+  }, [components, dispatch]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-  
+
     reader.onloadend = () => {
-      console.log('File loaded:', reader.result); // Debugging line
+      console.log('File loaded:', reader.result);
       dispatch(setImage(`${reader.result}`));
     };
-  
+
     if (file) {
       reader.readAsDataURL(file);
     }
   };
-  
 
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -204,7 +211,6 @@ export default function Canvas({ components, onRemoveComponent, moveComponent })
         ref={drop}
         className="flex-1 p-4 border w-full border-gray-300 rounded-lg min-h-screen bg-white relative"
         style={{ 
-          // background: "linear-gradient(to right, #c9d6ff, #e2e2e2)",
           backgroundImage: `url(${backgroundImage})`, 
           backgroundSize: 'cover',
           backgroundPosition: 'center',
